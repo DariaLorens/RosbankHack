@@ -7,8 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_card.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.lorens.rosbankhack.adapters.CardPageAdapter
 import ru.lorens.rosbankhack.repositories.CardRepositories
+import ru.lorens.rosbankhack.rest.RestClient
+import ru.lorens.rosbankhack.rest.Screen
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -25,6 +29,9 @@ class CardActivity : AppCompatActivity() {
                 it
             )
         }
+
+        checkBox.isEnabled = true
+
         if (card != null) {
             cardViewPager.adapter = CardPageAdapter(supportFragmentManager, card.screens)
             val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
@@ -40,6 +47,22 @@ class CardActivity : AppCompatActivity() {
             animation_view.setOnClickListener {
                 startContentActivity(cardId)
             }
+
+            buttonLike.setOnClickListener {
+                buttonLike.setOnClickListener {  }
+                buttonLike.setImageResource(R.drawable.ic_heart_enabled)
+                GlobalScope.launch {
+                    try {
+                        RestClient.getClient.reaction(cardId, 87, Consts.LIKE_REACTION)
+                    } catch (e: Throwable) {
+                        print(e)
+                        null
+                    }
+                }
+            }
+
+            rightArea.setOnClickListener { nextSlide(cardViewPager!!, card.screens) }
+            leftArea.setOnClickListener { previewsSlide(cardViewPager!!, card.screens) }
 
             cardViewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
@@ -61,12 +84,30 @@ class CardActivity : AppCompatActivity() {
                     if (position + 1 == card.screens.size) {
                         animation_view.visibility = View.VISIBLE
                         textMore.visibility = View.VISIBLE
+                        checkBox.visibility = View.VISIBLE
                     } else {
                         animation_view.visibility = View.INVISIBLE
                         textMore.visibility = View.INVISIBLE
+                        checkBox.visibility = View.INVISIBLE
                     }
                 }
             })
+        }
+    }
+
+    private fun nextSlide(cardViewPager: ViewPager, list: List<Screen>) {
+        if (cardViewPager.currentItem + 1 != list.size) {
+            cardViewPager.setCurrentItem(cardViewPager.currentItem + 1, true)
+        } else {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }
+    }
+
+    private fun previewsSlide(cardViewPager: ViewPager, list: List<Screen>) {
+        if (cardViewPager.currentItem != 0) {
+            cardViewPager.setCurrentItem(cardViewPager.currentItem - 1, true)
         }
     }
 
@@ -74,15 +115,23 @@ class CardActivity : AppCompatActivity() {
         val intent = Intent(this, ContentActivity::class.java)
         intent.putExtra("cardArticleId", cardId)
         startActivity(intent)
+
+        GlobalScope.launch {
+            try {
+                RestClient.getClient.reaction(cardId, 87, Consts.READ_REACTION)
+            } catch (e: Throwable) {
+                print(e)
+                null
+            }
+        }
     }
 
     fun refreshScroll(int: Int) {
-        for (i in 0..int) {
-            if (i != int - 1) {
-                Timer().schedule(3000) {
-                    runOnUiThread {
-                        cardViewPager!!.setCurrentItem(cardViewPager.currentItem + 1, true)
-                    }
+        if (cardViewPager.currentItem + 1 != int) {
+            Timer().schedule(5000) {
+                runOnUiThread {
+                    cardViewPager!!.setCurrentItem(cardViewPager.currentItem + 1, true)
+                    refreshScroll(int)
                 }
             }
         }

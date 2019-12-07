@@ -37,5 +37,11 @@ object RestClient {
 
         @POST("")
         suspend fun setUsers(@Body user: List<User>): Respons
+
+        @POST("get-cards")
+        suspend fun getCards(@Body userId: Int): List<Card>
+
+        @POST("reaction")
+        suspend fun reaction(@Body articleId: Int, @Body userId: Int, @Body reaction: String)
     }
 }

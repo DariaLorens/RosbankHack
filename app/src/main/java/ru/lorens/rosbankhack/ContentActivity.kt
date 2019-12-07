@@ -31,6 +31,5 @@ class ContentActivity : AppCompatActivity() {
             textTitleArticle.text = card.article.title
             textDescArticle.text = card.article.desc
         }
-
     }
 }

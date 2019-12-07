@@ -11,6 +11,10 @@ data class User(
     @Expose @SerializedName("desc") val desc: String?
 )
 
+data class Respons(
+    @Expose @SerializedName("users") val users: List<User>
+)
+
 data class Screen(
     @Expose @SerializedName("id") val id: Int,
     @Expose @SerializedName("article_id") val article_id: Int,
@@ -20,19 +24,14 @@ data class Screen(
     @Expose @SerializedName("back_color") val back_color: String?
 )
 
-
 data class Article(
     @Expose @SerializedName("id") val id: Int,
     @Expose @SerializedName("title") val title: String?,
     @Expose @SerializedName("image") val image: String?,
     @Expose @SerializedName("desc") val desc: String?
-) : Serializable
+)
 
 data class Card(
     @Expose @SerializedName("article") val article: Article,
     @Expose @SerializedName("screens") val screens: List<Screen>
-) : Serializable
-
-data class Respons(
-    @Expose @SerializedName("users") val users: List<User>
 )

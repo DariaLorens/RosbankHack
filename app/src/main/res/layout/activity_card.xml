@@ -29,6 +29,22 @@
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp" />
 
+    <View
+        android:id="@+id/rightArea"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/leftArea"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/counterText"
         android:layout_width="wrap_content"
@@ -57,13 +73,12 @@
         android:id="@+id/animation_view"
         android:layout_width="54dp"
         android:layout_height="54dp"
-        android:layout_marginEnd="110dp"
-        android:layout_marginRight="110dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="40dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/cardViewPager"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textMore"
         app:lottie_autoPlay="true"
         app:lottie_fileName="arrow_up.json"
         app:lottie_loop="true" />
@@ -72,14 +87,29 @@
         android:id="@+id/textMore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="Больше"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/animation_view"
-        app:layout_constraintStart_toEndOf="@+id/animation_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/animation_view" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:enabled="true"
+        android:visibility="invisible"
+        android:textSize="10sp"
+        android:text="Согласен на обработку \n персональных данных"
+        app:layout_constraintBottom_toBottomOf="@+id/textMore"
+        app:layout_constraintStart_toEndOf="@+id/textMore"
+        app:layout_constraintTop_toTopOf="@+id/textMore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
