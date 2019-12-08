@@ -39,9 +39,12 @@ object RestClient {
         suspend fun setUsers(@Body user: List<User>): Respons
 
         @POST("get-cards")
-        suspend fun getCards(@Body customer_id: Int): List<Card>
+        suspend fun getCards(@Body customer: Customer): List<Card>
 
         @POST("reaction")
-        suspend fun reaction(@Body user_id: Int, @Body article_id: Int, @Body reaction: String)
+        suspend fun reaction(@Body reaction: Reaction)
     }
+
+    data class Customer(val customer_id: Int)
+    data class Reaction(val user_id: Int, val article_id: Int, val reaction: String)
 }

@@ -12,6 +12,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.lorens.rosbankhack.Consts.CLICK_REACTION
+import ru.lorens.rosbankhack.Consts.CUSTOMER_ID
 import ru.lorens.rosbankhack.adapters.PreviewRecyclerAdapter
 import ru.lorens.rosbankhack.repositories.CardRepositories
 import ru.lorens.rosbankhack.rest.Article
@@ -49,7 +50,13 @@ class MainActivity : AppCompatActivity() {
         CardRepositories.deleteCard(element)
         GlobalScope.launch {
             try {
-                RestClient.getClient.reaction(1, element.article.id, CLICK_REACTION)
+                RestClient.getClient.reaction(
+                    RestClient.Reaction(
+                        user_id = CUSTOMER_ID,
+                        article_id = element.article.id,
+                        reaction = CLICK_REACTION
+                    )
+                )
             } catch (e: Throwable) {
                 print(e)
                 null
@@ -61,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch {
             val cardsList = withContext(Dispatchers.Default) {
                 try {
-                    RestClient.getClient.getCards(1)
+                    RestClient.getClient.getCards(RestClient.Customer(customer_id = CUSTOMER_ID))
                 } catch (e: Throwable) {
                     print(e)
                     null

@@ -5,4 +5,5 @@ object Consts {
     val LIKE_REACTION: String = "LIKE"
     val READ_REACTION: String = "READ"
     val CLICK_REACTION: String = "CLICK"
+    val CUSTOMER_ID: Int = 1
 }

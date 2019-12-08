@@ -49,11 +49,17 @@ class CardActivity : AppCompatActivity() {
             }
 
             buttonLike.setOnClickListener {
-                buttonLike.setOnClickListener {  }
+                buttonLike.setOnClickListener { }
                 buttonLike.setImageResource(R.drawable.ic_heart_enabled)
                 GlobalScope.launch {
                     try {
-                        RestClient.getClient.reaction(cardId, 87, Consts.LIKE_REACTION)
+                        RestClient.getClient.reaction(
+                            RestClient.Reaction(
+                                user_id = Consts.CUSTOMER_ID,
+                                article_id = cardId,
+                                reaction = Consts.LIKE_REACTION
+                            )
+                        )
                     } catch (e: Throwable) {
                         print(e)
                         null
@@ -118,7 +124,13 @@ class CardActivity : AppCompatActivity() {
 
         GlobalScope.launch {
             try {
-                RestClient.getClient.reaction(cardId, 87, Consts.READ_REACTION)
+                RestClient.getClient.reaction(
+                    RestClient.Reaction(
+                        user_id = Consts.CUSTOMER_ID,
+                        article_id = cardId,
+                        reaction = Consts.READ_REACTION
+                    )
+                )
             } catch (e: Throwable) {
                 print(e)
                 null
