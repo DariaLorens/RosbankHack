@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         CardRepositories.deleteCard(element)
         GlobalScope.launch {
             try {
-                RestClient.getClient.reaction(element.article.id, 87, CLICK_REACTION)
+                RestClient.getClient.reaction(1, element.article.id, CLICK_REACTION)
             } catch (e: Throwable) {
                 print(e)
                 null
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch {
             val cardsList = withContext(Dispatchers.Default) {
                 try {
-                    RestClient.getClient.getCards(87)
+                    RestClient.getClient.getCards(1)
                 } catch (e: Throwable) {
                     print(e)
                     null
